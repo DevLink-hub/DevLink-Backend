@@ -1,4 +1,5 @@
 import express from 'express'
+import mongoose from 'mongoose';
 import 'dotenv/config';
 import expressOasGenerator from '@mickeymond/express-oas-generator';
 import cors from 'cors'
