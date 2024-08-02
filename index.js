@@ -17,7 +17,7 @@ import { userRouter } from './routes/user.js';
 const app = express();
 app.use(express.json());expressOasGenerator.handleResponses(app, {
   alwaysServeDocs:true,
-  tags: [ 'Profile','User' ],
+  tags: ['users' ],
  
   mongooseModels: mongoose.modelNames(),
 
