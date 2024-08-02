@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { userModel } from '../model/user.js';
-import { userSchema } from '../schema/user.js';
+import { userModel } from '../model/userModel.js';
+import { userSchema } from '../schema/userSchema.js';
 
 // Creating a user (sign up)
 export const signup = async (req, res, next) => {

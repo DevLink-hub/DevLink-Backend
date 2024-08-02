@@ -1,4 +1,4 @@
-import {  getUsers, login, signup, token,logout ,getUser} from "../controllers/user.js";
+import {  getUsers, login, signup, token,logout ,getUser} from "../controllers/userController.js";
 import { Router } from "express";
 
 
