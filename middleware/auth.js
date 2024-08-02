@@ -21,25 +21,3 @@ export const isAuthenticated = (req, res, next) => {
     }
 }
 
-
-
-// export const hasPermission = (permission) => {
-//     return async (req, res, next) => {
-//         try {
-//             // Get user id from session or request
-//             const id = req.session?.user?.id || req?.user?.id;
-//             // Find user by id
-//             const user = await userModel.findById(id);
-//             // Find user role with permissions
-//             const userRole = roles.find(element => element.role === user.role);
-//             // Use role to check if user has permission
-//             if (userRole && userRole.permissions.includes(permission)) {
-//                 next();
-//             } else {
-//                 res.status(403).json('Not Authorized!');
-//             }
-//         } catch (error) {
-//             next(error);
-//         }
-//     }
-// }

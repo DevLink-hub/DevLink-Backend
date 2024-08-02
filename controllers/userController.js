@@ -31,20 +31,20 @@ export const signup = async (req, res, next) => {
 };
 
 // Get a single user by username
-export const getUser = async (req, res, next) => {
-  try {
-    const userName = req.params.userName.toLowerCase();
-    const user = await userModel.findOne({ userName }).select("-password");
+// export const getUser = async (req, res, next) => {
+//   try {
+//     const userName = req.params.userName.toLowerCase();
+//     const user = await userModel.findOne({ userName }).select("-password");
 
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
+//     if (!user) {
+//       return res.status(404).json({ message: 'User not found' });
+//     }
 
-    res.status(200).json({ user });
-  } catch (error) {
-    next(error);
-  }
-};
+//     res.status(200).json({ user });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
 // Get users based on query parameters
 export const getUsers = async (req, res, next) => {
