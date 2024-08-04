@@ -21,7 +21,7 @@ const app = express();
 
 expressOasGenerator.handleResponses(app, {
   alwaysServeDocs: true,
-  tags: ['users','freelancer',"education","work Experience",],
+  tags: ['users','freelancer',"education","workExperience",],
 
   mongooseModels: mongoose.modelNames(),
 
