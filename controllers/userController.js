@@ -30,8 +30,8 @@ export const signup = async (req, res, next) => {
   }
 };
 
-// Get a single user by username
-// export const getUser = async (req, res, next) => {
+//Get a single user by username
+// export const getUsers = async (req, res, next) => {
 //   try {
 //     const userName = req.params.userName.toLowerCase();
 //     const user = await userModel.findOne({ userName }).select("-password");
@@ -46,16 +46,28 @@ export const signup = async (req, res, next) => {
 //   }
 // };
 
-// Get users based on query parameters
+// Get users based on session ID 
 export const getUsers = async (req, res, next) => {
   try {
+    // Retrieve the user ID from the session or request object
+    const id = req.session?.user?.id || req?.user?.id;
+    if (!id) {
+      return res.status(400).send('User ID is missing');
+    }
+    // Initialize the filter object
+    const filter = { _id: id };
+    // Check for the email query parameter
     const { email } = req.query;
-    const filter = {};
-
-    if (email) filter.email = email.toLowerCase();
-  
-    const users = await userModel.find(filter);
-    res.status(200).json({ users });
+    if (email) {
+      filter.email = email.toLowerCase();
+    }
+    // Find the user by ID and apply the filter
+    const user = await userModel.findOne(filter).select('-password');
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+    // Respond with the user data
+    res.status(200).json({ user });
   } catch (error) {
     next(error);
   }
@@ -93,9 +105,9 @@ export const login = async (req, res, next) => {
 // Token authentication
 export const token = async (req, res, next) => {
   try {
-    const { email,password } = req.body;
+    const { email, password } = req.body;
 
-    if (!password || !email ) {
+    if (!password || !email) {
       return res.status(400).json({ message: 'Email or username and password are required' });
     }
 

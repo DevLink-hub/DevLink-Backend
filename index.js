@@ -7,6 +7,8 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import { dbconnection } from './config/db.js';
 import { userRouter } from './routes/userRoute.js';
+import { freelancerRouter } from './routes/freelancerRoute.js';
+import { educationRoute } from './routes/educationRoute.js';
 // import passport from 'passport'
 // import { auth } from 'express-openid-connect';
 
@@ -42,6 +44,8 @@ app.use(session({
 
 //Route
 app.use('/api/v1', userRouter)
+app.use('/api/v1',freelancerRouter)
+app.use('/api/v1',educationRoute)
 
 expressOasGenerator.handleRequests();
 app.use((req, res) => res.redirect('/api-docs/'));
