@@ -24,7 +24,7 @@ const workExperienceSchema = new Schema({
       type: String,
       required: true,
     },
-    user:{type: Types.ObjectId, ref:'Freelancer'}
+    Freelancer:{type: Types.ObjectId, ref:'Freelancer'}
   },{
     timestamps:true,
   });

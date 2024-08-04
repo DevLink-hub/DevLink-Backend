@@ -42,7 +42,7 @@ export const addEducation = async (req, res) => {
 };
 
 
-// Deleting Education From Preelancer
+// Updatting Education From Preelancer
 export const updateEducation = async (req, res) => {
     try {
         // Validate the incoming request data
