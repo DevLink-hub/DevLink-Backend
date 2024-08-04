@@ -4,6 +4,6 @@ import { addWorkExp, deleteWorkExp, updateWorkExp } from "../controllers/workExp
 
 export const workExpRouter = Router();
 
-workExpRouter.post('/freelancer/workExperience',addWorkExp)
-workExpRouter.patch('/freelancer/workExperience/:workExpId',updateWorkExp)
-workExpRouter.delete('/freelancer/workExperience/:workExpId',deleteWorkExp)
+workExpRouter.post('/workExperience',addWorkExp)
+workExpRouter.patch('/workExperience/:workExpId',updateWorkExp)
+workExpRouter.delete('/workExperience/:workExpId',deleteWorkExp)

@@ -6,6 +6,6 @@ import { addEducation, deleteEducation, updateEducation } from "../controllers/e
 
 export const educationRoute = Router();
 
-educationRoute.post('/freelancer/education',addEducation)
-educationRoute.patch('/freelancer/education/:educationId',updateEducation)
-educationRoute.delete('/freelancer/education/:educationId',deleteEducation)
+educationRoute.post('/education',addEducation)
+educationRoute.patch('/education/:educationId',updateEducation)
+educationRoute.delete('/education/:educationId',deleteEducation)
