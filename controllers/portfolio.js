@@ -1,14 +1,16 @@
-import { educationModel } from "../model/education.js";
 import { freelancerModel } from "../model/freelancerModel.js";
-import { educationSchema } from "../schema/education.js";
+import { portfolioModel } from "../model/portfolioModel.js";
+import { portfolioSchema } from "../schema/portfolio.js";
 
-export const addEducation = async (req, res) => {
+// Add Portfolio
+export const addPortfolio = async (req, res) => {
     try {
         // Validate the incoming request data
-        const { error, value } = educationSchema.validate(req.body);
+        const { error, value } = portfolioSchema.validate(req.body);
         if (error) {
             return res.status(400).send(error.details[0].message);
         }
+
         // Retrieve the user ID from the session or request
         const id = req.session?.user?.id || req?.user?.id;
         if (!id) {
@@ -20,102 +22,107 @@ export const addEducation = async (req, res) => {
         if (!freelancer) {
             return res.status(404).send('Freelancer not found');
         }
-        // Create a new education entry with freelancer reference
-        const newEducation = await educationModel.create({
+
+        // Create a new portfolio entry with freelancer reference
+        const newPortfolio = await portfolioModel.create({
             ...value,
             freelancer: freelancer._id
         });
 
-        // Add the new education entry to the freelancer's education array
-        freelancer.education.push(newEducation._id);
+        // Add the new portfolio entry to the freelancer's portfolio array
+        freelancer.portfolio.push(newPortfolio._id);
         await freelancer.save();
 
         // Respond with success message
         res.status(201).json({
-            education: newEducation,
-            message: "Education added successfully",
+            portfolio: newPortfolio,
+            message: "Portfolio added successfully",
         });
     } catch (error) {
-        console.error('Error adding education:', error);
+        console.error('Error adding portfolio:', error);
         res.status(500).send(error.message);
     }
 };
 
-
-// Updatting Education From Preelancer
-export const updateEducation = async (req, res) => {
+// Update Portfolio
+export const updatePortfolio = async (req, res) => {
     try {
         // Validate the incoming request data
-        const { error, value } = educationSchema.validate(req.body);
+        const { error, value } = portfolioSchema.validate(req.body);
         if (error) {
             return res.status(400).send(error.details[0].message);
         }
 
         // Retrieve the user ID from the session or request
         const id = req.session?.user?.id || req?.user?.id;
-        console.log('User ID:', id); // Debugging line
         if (!id) {
             return res.status(400).send('User ID is missing');
         }
 
         // Find the freelancer profile by user ID
         const freelancer = await freelancerModel.findOne({ user: id });
-        console.log('Freelancer:', freelancer); // Debugging line
-
         if (!freelancer) {
             return res.status(404).send('Freelancer not found');
         }
 
-        // Find the education entry by ID and update it
-        const educationId = req.params.educationId;
-        const updatedEducation = await educationModel.findByIdAndUpdate(educationId, value, { new: true });
+        // Find the portfolio entry by ID and update it
+        const updatedPortfolio = await portfolioModel.findOneAndUpdate(
+            {  freelancer: freelancer._id }, 
+            value, 
+            { new: true }
+        );
 
-        if (!updatedEducation) {
-            return res.status(404).send('Education not found');
+        if (!updatedPortfolio) {
+            return res.status(404).send('Portfolio not found');
         }
 
         // Respond with success message
         res.status(200).json({
-            education: updatedEducation,
-            message: "Education updated successfully",
+            portfolio: updatedPortfolio,
+            message: "Portfolio updated successfully",
         });
     } catch (error) {
-        console.error('Error updating education:', error);
+        console.error('Error updating portfolio:', error);
         res.status(500).send(error.message);
     }
 };
 
-
-
-
-export const deleteEducation = async (req, res) => {
+// Delete Portfolio
+export const deletePortfolio = async (req, res) => {
     try {
         // Retrieve the user ID from the session or request
         const id = req.session?.user?.id || req?.user?.id;
         if (!id) {
             return res.status(400).send('User ID is missing');
         }
+
         // Find the freelancer profile by user ID
         const freelancer = await freelancerModel.findOne({ user: id });
         if (!freelancer) {
             return res.status(404).send('Freelancer not found');
         }
-        // Find the education entry by ID and delete it
-        const educationId = req.params.educationId;
-        const deletedEducation = await educationModel.findByIdAndDelete(educationId);
 
-        if (!deletedEducation) {
-            return res.status(404).send('Education not found');
+        // Find the portfolio entry by ID and delete it
+        const portfolioId = req.params.portfolioId;
+        const deletedPortfolio = await portfolioModel.findOneAndDelete({
+            
+            freelancer: freelancer._id
+        });
+
+        if (!deletedPortfolio) {
+            return res.status(404).send('Portfolio not found');
         }
-        // Remove the education entry from the freelancer's education array
-        freelancer.education = freelancer.education.filter(id => id.toString() !== educationId);
+
+        // Remove the portfolio reference from the freelancer's portfolio array
+        freelancer.portfolio = freelancer.portfolio.filter(id => id.toString() !== portfolioId);
         await freelancer.save();
+
         // Respond with success message
         res.status(200).json({
-            message: "Education deleted successfully",
+            message: "Portfolio deleted successfully",
         });
     } catch (error) {
-        console.error('Error deleting education:', error);
+        console.error('Error deleting portfolio:', error);
         res.status(500).send(error.message);
     }
 };

@@ -10,6 +10,9 @@ import { userRouter } from './routes/userRoute.js';
 import { freelancerRouter } from './routes/freelancerRoute.js';
 import { educationRoute } from './routes/educationRoute.js';
 import { workExpRouter } from './routes/addWorkExp.js';
+import { clientRouter } from './routes/client.js';
+import { projectRouter } from './routes/project.js';
+import { portfolioRouter } from './routes/portfolio.js';
 // import passport from 'passport'
 // import { auth } from 'express-openid-connect';
 
@@ -21,7 +24,7 @@ const app = express();
 
 expressOasGenerator.handleResponses(app, {
   alwaysServeDocs: true,
-  tags: ['users','freelancer',"education","workExperience",],
+  tags: ['users','freelancer',"education","workExperience","portfolio","clients","projects"],
 
   mongooseModels: mongoose.modelNames(),
 
@@ -48,6 +51,9 @@ app.use('/api/v1', userRouter)
 app.use('/api/v1',freelancerRouter)
 app.use('/api/v1',educationRoute)
 app.use('/api/v1',workExpRouter)
+app.use('/api/v1',clientRouter)
+app.use('/api/v1',projectRouter)
+app.use('/api/v1',portfolioRouter)
 expressOasGenerator.handleRequests();
 app.use((req, res) => res.redirect('/api-docs/'));
 

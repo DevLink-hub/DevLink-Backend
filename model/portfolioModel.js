@@ -14,10 +14,7 @@ import { toJSON } from "@reis/mongoose-to-json";
       type: String,
       required: true,
     },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    }, user:{type: Types.ObjectId, ref:'Freelancer'},
+    freelancer: { type: Types.ObjectId, ref: 'Freelancer', required: true },
   },{
     timestamps:true,
   });

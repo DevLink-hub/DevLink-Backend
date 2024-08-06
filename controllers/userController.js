@@ -44,34 +44,7 @@ export const signup = async (req, res, next) => {
 //   } catch (error) {
 //     next(error);
 //   }
-// };
 
-// Get users based on session ID 
-export const getUsers = async (req, res, next) => {
-  try {
-    // Retrieve the user ID from the session or request object
-    const id = req.session?.user?.id || req?.user?.id;
-    if (!id) {
-      return res.status(400).send('User ID is missing');
-    }
-    // Initialize the filter object
-    const filter = { _id: id };
-    // Check for the email query parameter
-    const { email } = req.query;
-    if (email) {
-      filter.email = email.toLowerCase();
-    }
-    // Find the user by ID and apply the filter
-    const user = await userModel.findOne(filter).select('-password');
-    if (!user) {
-      return res.status(404).send('User not found');
-    }
-    // Respond with the user data
-    res.status(200).json({ user });
-  } catch (error) {
-    next(error);
-  }
-};
 
 // User login
 export const login = async (req, res, next) => {

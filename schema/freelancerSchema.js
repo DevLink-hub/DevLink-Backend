@@ -6,7 +6,7 @@ export const freelancerSchema = Joi.object({
   profilePhoto:Joi.string(),
   bio: Joi.string().required(),
   location: Joi.string().required(),
-  skills:Joi.string().required().required(),
+  skills:Joi.string().required(),
 });
 
 
