@@ -7,7 +7,9 @@ const userSchema = new Schema({
         lastName: { type: String },
         email: { type: String, unique: true },
         password: { type: String }, 
-        userName:{type:String}
+        userName:{type:String},
+        resetToken: { type: String },
+        resetTokenExpiresAt: { type: Date },
 },{
         timestamps:true
 })
