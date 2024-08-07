@@ -42,7 +42,7 @@ export const addEducation = async (req, res) => {
 };
 
 
-// Updatting Education From Preelancer
+// Updating Education From Preelancer
 export const updateEducation = async (req, res) => {
     try {
         // Validate the incoming request data
@@ -81,6 +81,34 @@ export const updateEducation = async (req, res) => {
         });
     } catch (error) {
         console.error('Error updating education:', error);
+        res.status(500).send(error.message);
+    }
+};
+
+
+
+export const getEducation = async (req, res) => {
+    try {
+        // Retrieve the user ID from the session or request
+        const id = req.session?.user?.id || req?.user?.id;
+        if (!id) {
+            return res.status(400).send('User ID is missing');
+        }
+
+        // Find the freelancer profile by user ID
+        const freelancer = await freelancerModel.findOne({ user: id }).populate('education');
+        console.log(freelancer)
+        if (!freelancer) {
+            return res.status(404).send('Freelancer not found');
+        }
+
+        // Respond with success message and the education entries
+        res.status(200).json({
+            education: freelancer.education,
+            message: "Education entries retrieved successfully",
+        });
+    } catch (error) {
+        console.error('Error retrieving education entries:', error);
         res.status(500).send(error.message);
     }
 };

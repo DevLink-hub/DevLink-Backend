@@ -44,6 +44,33 @@ export const addPortfolio = async (req, res) => {
     }
 };
 
+
+
+export const getPortfolio = async (req, res) => {
+    try {
+        // Retrieve the user ID from the session or request
+        const id = req.session?.user?.id || req?.user?.id;
+        if (!id) {
+            return res.status(400).send('User ID is missing');
+        }
+
+        // Find the freelancer profile by user ID and populate the portfolio
+        const freelancer = await freelancerModel.findOne({ user: id }).populate('portfolio');
+        if (!freelancer) {
+            return res.status(404).send('Freelancer not found');
+        }
+
+        // Respond with the freelancer's portfolio
+        res.status(200).json({
+            portfolio: freelancer.portfolio,
+            message: "Portfolio entries retrieved successfully",
+        });
+    } catch (error) {
+        console.error('Error retrieving portfolio entries:', error);
+        res.status(500).send(error.message);
+    }
+};
+
 // Update Portfolio
 export const updatePortfolio = async (req, res) => {
     try {

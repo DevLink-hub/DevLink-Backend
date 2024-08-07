@@ -74,6 +74,32 @@ export const updateWorkExp = async (req, res) => {
   };
 
 
+
+  export const getWorkExp = async (req, res) => {
+    try {
+        // Retrieve the user ID from the session or request
+        const id = req.session?.user?.id || req?.user?.id;
+        if (!id) {
+            return res.status(400).send('User ID is missing');
+        }
+
+        // Find the freelancer profile by user ID and populate the workExperience field
+        const freelancer = await freelancerModel.findOne({ user: id }).populate('workExperience');
+        if (!freelancer) {
+            return res.status(404).send('Freelancer not found');
+        }
+
+        // Respond with the freelancer's work experiences
+        res.status(200).json({
+            workExperience: freelancer.workExperience,
+            message: "Work experience entries retrieved successfully",
+        });
+    } catch (error) {
+        console.error('Error retrieving work experience entries:', error);
+        res.status(500).send(error.message);
+    }
+};
+
   export const deleteWorkExp = async (req, res) => {
     try {
       // Retrieve the user ID from the session or request

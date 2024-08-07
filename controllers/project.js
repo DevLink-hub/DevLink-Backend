@@ -129,3 +129,30 @@ export const deleteProject = async (req, res) => {
         res.status(500).send(error.message);
     }
 };
+
+
+
+export const getProjects = async (req, res) => {
+  try {
+    // Retrieve the user ID from the session or request
+    const id = req.session?.user?.id || req?.user?.id;
+    if (!id) {
+      return res.status(400).send('User ID is missing');
+    }
+
+    // Find the client profile by user ID and populate the projects
+    const client = await clientModel.findOne({ user: id }).populate('project');
+    if (!client) {
+      return res.status(404).send('Client not found');
+    }
+
+    // Respond with the client's projects
+    res.status(200).json({
+      projects: client.project,
+      message: "Projects retrieved successfully",
+    });
+  } catch (error) {
+    console.error('Error retrieving projects:', error);
+    res.status(500).send(error.message);
+  }
+};

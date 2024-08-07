@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { addEducation, deleteEducation, updateEducation } from "../controllers/education.js";
+import { addEducation, deleteEducation, getEducation, updateEducation } from "../controllers/education.js";
 
 
 
@@ -7,5 +7,6 @@ import { addEducation, deleteEducation, updateEducation } from "../controllers/e
 export const educationRoute = Router();
 
 educationRoute.post('/education',addEducation)
+educationRoute.get('/education',getEducation)
 educationRoute.patch('/education/:educationId',updateEducation)
 educationRoute.delete('/education/:educationId',deleteEducation)

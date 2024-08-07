@@ -6,7 +6,7 @@ const educationSchema = new Schema({
   degree: { type: String, required: true },
   fieldOfStudy: { type: String, required: true },
   year: { type: String, required: true },
-  freelancer: { type: Types.ObjectId, ref: 'Freelancer', required: true }, // Ensure this field is required
+  freelancer:[{ type: Types.ObjectId, ref: 'Freelancer', required: true }], // Ensure this field is required
 }, {
   timestamps: true,
 });

@@ -8,7 +8,7 @@ const projectSchema = new Schema({
     deadline: {type: Date,required:true},
     skillsRequired: {type: [String],required: true},
     status: {type: String,enum: ['open', 'in_progress', 'completed', 'canceled'],default: 'open'},
-    client:{type: Types.ObjectId,ref:'Client', required: true },
+    client:[{type: Types.ObjectId,ref:'Client', required: true }],
 
 
 },{
