@@ -79,7 +79,7 @@ const reboot = async () => {
 
 //Listening to Port & Connecting to database
 dbconnection().then(() => {
-  const PORT = 6550
+  const PORT =  4400
   app.listen(PORT, () => {
       reboot().then(() => {
       console.log(`Server Restarted`);
@@ -92,8 +92,4 @@ dbconnection().then(() => {
   process.exit(-1);
 });
 
-const port = 4400
 
-app.listen(port, () => {
-  console.log(`Listening on port: ${port}`);
-});

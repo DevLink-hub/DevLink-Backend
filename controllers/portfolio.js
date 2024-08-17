@@ -6,7 +6,11 @@ import { portfolioSchema } from "../schema/portfolio.js";
 export const addPortfolio = async (req, res) => {
     try {
         // Validate the incoming request data
-        const { error, value } = portfolioSchema.validate(req.body);
+        const { error, value } = portfolioSchema.validate(
+          {...req.body,
+            image:req.files?.image[0].filename
+          }
+        );
         if (error) {
             return res.status(400).send(error.details[0].message);
         }
@@ -75,7 +79,9 @@ export const getPortfolio = async (req, res) => {
 export const updatePortfolio = async (req, res) => {
     try {
         // Validate the incoming request data
-        const { error, value } = portfolioSchema.validate(req.body);
+        const { error, value } = portfolioSchema.validate(  {...req.body,
+            image:req.files?.image[0].filename
+          });
         if (error) {
             return res.status(400).send(error.details[0].message);
         }

@@ -10,7 +10,7 @@ const freelancerSchema = new Schema({
   skills: [{ type: String, required: true }],
   workExperience: [{ type: Types.ObjectId, ref: 'WorkExperince', required: true }],
   portfolio: [{ type: Types.ObjectId, ref: 'Portfolio', required: true }],
-  user: [{ type: Types.ObjectId, ref: 'User', required: true }],
+  user: { type: Types.ObjectId, ref: 'User', required: true },
   education: [{ type: Types.ObjectId, ref: "Education", required: true }],
   createdAt: {
     type: Date,

@@ -5,6 +5,8 @@ import { toJSON } from "@reis/mongoose-to-json";
     title: {
       type: String,
       required: true,
+    },image:{
+  type:String
     },
     description: {
       type: String,
