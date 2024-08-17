@@ -14,6 +14,7 @@ import { clientRouter } from './routes/client.js';
 import { projectRouter } from './routes/project.js';
 import { portfolioRouter } from './routes/portfolio.js';
 import { passwordRouter } from './routes/resetPassword.js';
+import { restartServer } from './restart_server.js';
 // import passport from 'passport'
 // import { auth } from 'express-openid-connect';
 
@@ -47,6 +48,11 @@ app.use(session({
 }));
 
 
+app.get("/api/v1/health", (req, res) => {
+  res.json({ status: "UP" });
+});
+
+
 //Route
 app.use('/api/v1', userRouter)
 app.use('/api/v1',freelancerRouter)
@@ -56,8 +62,15 @@ app.use('/api/v1',clientRouter)
 app.use('/api/v1',projectRouter)
 app.use('/api/v1',portfolioRouter)
 app.use('/api/v1',passwordRouter);
+
+
 expressOasGenerator.handleRequests();
 app.use((req, res) => res.redirect('/api-docs/'));
+
+
+const reboot = async () => {
+  setInterval(restartServer, process.env.INTERVAL)
+  }
 
 
 
@@ -65,7 +78,19 @@ app.use((req, res) => res.redirect('/api-docs/'));
 
 
 //Listening to Port & Connecting to database
-dbconnection();
+dbconnection().then(() => {
+  const PORT = 6550
+  app.listen(PORT, () => {
+      reboot().then(() => {
+      console.log(`Server Restarted`);
+    });
+    console.log(`Server is connected to Port ${PORT}`);
+  });
+})
+.catch((err) => {
+  console.log(err);
+  process.exit(-1);
+});
 
 const port = 4400
 
